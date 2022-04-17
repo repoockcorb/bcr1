@@ -1,8 +1,10 @@
 # bcr1
 
-# Dependencies
+## Dependencies
 install gflags
+
 sudo apt update
+
 sudo apt install libgflags-dev
 
 ROS NOETIC
