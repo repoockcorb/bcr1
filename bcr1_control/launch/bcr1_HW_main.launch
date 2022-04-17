@@ -1,0 +1,53 @@
+<launch>
+ 
+ <!-- RVIZ  -->
+   
+    <!-- Load the URDF to the parameter server -->
+    <param name="robot_description" textfile="$(find thesis_arm)/urdf/thesis_arm.urdf"/>
+
+
+    <!-- Show in Rviz  -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find thesis_arm)/basic.rviz"/>
+
+
+
+ <!-- CORE  -->
+
+  <!-- Load controller settings  -->
+    <rosparam file="$(find bcr1_control)/cfg/bcr1_controllers.yaml" command="load"/>
+
+
+    <!-- Load hardware interface -->
+    <node name="bcr1_hw_main" pkg="bcr1_control" type="bcr1_hw_main" output="screen"/> 
+
+    <!-- Load controller manager  -->
+    <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false"
+    output="screen" args="spawn joint_state_controller position_trajectory_controller" />
+
+    <!-- Convert joint states to /tf tranforms -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+   <!-- Simple Simulator-->
+   <node name="bcr1_sim_echo" pkg="bcr1_control" type="bcr1_sim_echo"/>
+
+ 
+ <!-- MOVEIT -->
+
+    <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+    <include file="$(find thesis_arm_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+    </include>
+
+
+    <!-- Remap follow_joint_trajectory -->
+    <remap from="/joint_trajectory_action" to="/position_trajectory_controller/follow_joint_trajectory"/>
+  
+
+    <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+    <include file="$(find thesis_arm_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="info" value="true"/> 
+    </include>
+
+
+</launch>
