@@ -28,9 +28,9 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
    <!-- Simple Simulator-->
-   <node name="bcr1_sim_echo" pkg="bcr1_control" type="bcr1_sim_echo"/>
+   <!-- <node name="bcr1_sim_echo" pkg="bcr1_control" type="bcr1_sim_echo"/> -->
 
- 
+
  <!-- MOVEIT -->
 
     <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
@@ -49,5 +49,7 @@
     <arg name="info" value="true"/> 
     </include>
 
-
+    <rosparam command="load" file="$(find thesis_arm_config)/config/joint_limits.yaml"/>
+    <rosparam command="load" file="$(find thesis_arm_config)/config/cartesian_limits.yaml"/>
+    
 </launch>

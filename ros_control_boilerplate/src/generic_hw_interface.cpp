@@ -106,12 +106,25 @@ void GenericHWInterface::init()
 
     // Load the joint limits
     registerJointLimits(joint_handle_position, joint_handle_velocity, joint_handle_effort, joint_id);
+
+    /////////////////////////////////////TESTING/////////////////////////////////
+    joint_limits_interface::JointLimits limits;
+    joint_limits_interface::getJointLimits(joint_names_[joint_id], nh_, limits);
+    joint_limits_interface::EffortJointSaturationHandle jointLimitsHandle(joint_handle_effort, limits);
+    eff_jnt_sat_interface_.registerHandle(jointLimitsHandle);
+    /////////////////////////////////////TESTING/////////////////////////////////
+
   }  // end for each joint
 
   registerInterface(&joint_state_interface_);     // From RobotHW base class.
   registerInterface(&position_joint_interface_);  // From RobotHW base class.
   registerInterface(&velocity_joint_interface_);  // From RobotHW base class.
   registerInterface(&effort_joint_interface_);    // From RobotHW base class.
+
+  /////////////////////////////////////TESTING/////////////////////////////////
+  registerInterface(&eff_jnt_sat_interface_);
+  /////////////////////////////////////TESTING/////////////////////////////////
+
 
   ROS_INFO_STREAM_NAMED(name_, "GenericHWInterface Ready.");
 }

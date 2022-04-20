@@ -71,7 +71,7 @@
     <limit
       lower="-2.79253"
       upper="2.79253"
-      effort="255"
+      effort="1"
       velocity="0" />
   </joint>
   <link
@@ -115,7 +115,7 @@
     <limit
       lower="-1.5708"
       upper="1.5708"
-      effort="255"
+      effort="1"
       velocity="0" />
   </joint>
   <link
@@ -159,7 +159,7 @@
     <limit
       lower="-3.14159"
       upper="0.872665"
-      effort="255"
+      effort="1"
       velocity="0" />
   </joint>
   <link
@@ -203,7 +203,7 @@
     <limit
       lower="-3.14159"
       upper="3.14159"
-      effort="255"
+      effort="1"
       velocity="0" />
   </joint>
   <link
@@ -247,7 +247,7 @@
     <limit
       lower="-1.5708"
       upper="1.5708"
-      effort="255"
+      effort="1"
       velocity="0" />
   </joint>
   <link
@@ -291,7 +291,7 @@
     <limit
       lower="-3.14159"
       upper="3.14159"
-      effort="255"
+      effort="1"
       velocity="0" />
   </joint>
 </robot>

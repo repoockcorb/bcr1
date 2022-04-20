@@ -67,11 +67,14 @@ void bcr1HWInterface::write(ros::Duration& elapsed_time)
     std::vector<double> joint_effort_command_;
   */
 
+  eff_jnt_sat_interface_.enforceLimits(elapsed_time);
+
+  // joint_effort_limits_[0]=10;
    static bcr1_control::armCmd arm_cmd;
    for(int i=0; i<num_joints_; i++){
      arm_cmd.effort[i] = joint_effort_command_[i];
+    //  arm_cmd.effort[i] = joint_position_[i]; // testing reading robot angles into effort message
      arm_cmd.angle[i] = joint_position_command_[i]*RAD_TO_DEG;
-     
    }
 
   cmd_pub.publish(arm_cmd);
@@ -82,6 +85,10 @@ void bcr1HWInterface::enforceLimits(ros::Duration& period)
 {
   // Enforces position and velocity
   //pos_jnt_sat_interface_.enforceLimits(period);
+  eff_jnt_sat_interface_.enforceLimits(period);
+  use_rosparam_joint_limits_=true;
+  use_soft_limits_if_available_=true;
+
 }
 
 
