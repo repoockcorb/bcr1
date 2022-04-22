@@ -35,30 +35,30 @@ position_trajectory_controller:
       - Joint_6
    gains:
     Joint_1:
-      p: 50
+      p: 2400
       d: 0
       i: 5
       i_clamp_max: 13
       i_clamp_min: -13
       antiwindup: True
     Joint_2:
-      p: 50
+      p: 2400
       d: 0
-      i: 5
+      i: 1
       i_clamp_max: 13
       i_clamp_min: -13
       antiwindup: True
     Joint_3:
-      p: 50
+      p: 2400
       d: 0
-      i: 5
+      i: 1
       i_clamp_max: 13
       i_clamp_min: -13
       antiwindup: True
     Joint_4:
-      p: 50
+      p: 800
       d: 0
-      i: 5
+      i: 2
       i_clamp_max: 13
       i_clamp_min: -13
       antiwindup: True
