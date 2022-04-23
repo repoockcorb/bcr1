@@ -15,7 +15,7 @@ joint_limits:
     max_acceleration: 3
     has_effort_limits: true
     max_effort: 255
-    min_effort: 0
+    min_effort: 65
   Joint_2:
     has_velocity_limits: true
     max_velocity: 3
@@ -23,7 +23,7 @@ joint_limits:
     max_acceleration: 3
     has_effort_limits: true
     max_effort: 255
-    min_effort: 0
+    min_effort: 65
   Joint_3:
     has_velocity_limits: true
     max_velocity: 3
@@ -31,7 +31,7 @@ joint_limits:
     max_acceleration: 3
     has_effort_limits: true
     max_effort: 255
-    min_effort: 0
+    min_effort: 65
   Joint_4:
     has_velocity_limits: true
     max_velocity: 3
@@ -39,7 +39,7 @@ joint_limits:
     max_acceleration: 3
     has_effort_limits: true
     max_effort: 255
-    min_effort: 0
+    min_effort: 65
   Joint_5:
     has_velocity_limits: true
     max_velocity: 3
@@ -47,7 +47,7 @@ joint_limits:
     max_acceleration: 3
     has_effort_limits: true
     max_effort: 255
-    min_effort: 0
+    min_effort: 65
   Joint_6:
     has_velocity_limits: true
     max_velocity: 3
@@ -55,4 +55,4 @@ joint_limits:
     max_acceleration: 3
     has_effort_limits: true
     max_effort: 255
-    min_effort: 0
+    min_effort: 65

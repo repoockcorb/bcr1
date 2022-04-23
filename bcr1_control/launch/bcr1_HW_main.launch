@@ -60,4 +60,13 @@
     <rosparam command="load" file="$(find bcr1_moveit_config)/config/joint_limits.yaml"/>
     <rosparam command="load" file="$(find bcr1_moveit_config)/config/cartesian_limits.yaml"/>
     
+<!-- HARDWARE -->
+
+    <!-- rosserial to arduino(ATmega2560) -->
+    <!-- <node name="serial_node"        pkg="rosserial_arduino"      type="serial_node.py">
+    <param name="port"              type="string"               value="/dev/ttyUSB0"/>
+    <param name="baud"              type="int"                  value="115200"/>
+    </node> -->
+
+
 </launch>

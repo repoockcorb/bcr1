@@ -38,9 +38,17 @@ ros::Publisher pub("/arduino/bcr1Telemetry", &msg);
 const int enca[] = {3, 2, 18, 19, 20, 21};
 const int encb[] = {34, 35, 36, 37, 38, 39};
 const int pwm[] = {13, 12, 11, 10, 9, 8};
-const int in1[] = {22, 25, 26, 28, 30, 32};
-const int in2[] = {23, 24, 27, 29, 31, 33};
+const int in1[] = {22, 25, 26, 28, 31, 32};
+const int in2[] = {23, 24, 27, 29, 30, 33};
 const int hall[] = {40, 41, 42, 43, 44, 45};
+
+// Pins BACKUP
+//const int enca[] = {3, 2, 18, 19, 20, 21};
+//const int encb[] = {34, 35, 36, 37, 38, 39};
+//const int pwm[] = {13, 12, 11, 10, 9, 8};
+//const int in1[] = {22, 25, 26, 28, 30, 32};
+//const int in2[] = {23, 24, 27, 29, 31, 33};
+//const int hall[] = {40, 41, 42, 43, 44, 45};
 
 // Globals
 long prevT = 0;
@@ -67,8 +75,8 @@ void setup() {
   hall_s[1] = !digitalRead(hall[1]);
   hall_s[2] = !digitalRead(hall[2]);
   hall_s[3] = !digitalRead(hall[3]);
-  hall_s[4] = digitalRead(hall[4]);
-  hall_s[5] = digitalRead(hall[5]);
+  hall_s[4] = !digitalRead(hall[4]);
+  hall_s[5] = !digitalRead(hall[5]);
 
   Serial.print("The hall status is:");
   Serial.println(hall_s[0]);
@@ -126,12 +134,10 @@ void setup() {
 
 
 void loop() {
-
+  
   nh.spinOnce();
-  delay(1);
-
+  delay(5);
   // read effort
-
   for (int k = 0; k < NMOTORS; k++) {
     pwmVal[k] = effort[k];
   }
@@ -139,12 +145,12 @@ void loop() {
   // set target position
   int target[NMOTORS];
 
-  target[0] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
-  target[1] = ((6600 / 360) * 0) + ((6600 / 360) * 77);
-  target[2] = ((6600 / 360) * 0) - ((6600 / 360) * 53);
-  target[3] = ((8910 / 360) * 0) + ((8910 / 360) * 0);
-  target[4] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
-  target[5] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
+//    target[0] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
+//    target[1] = ((6600 / 360) * 0) + ((6600 / 360) * 77);
+//    target[2] = ((6600 / 360) * 0) - ((6600 / 360) * 53);
+//    target[3] = ((8910 / 360) * 0) + ((8910 / 360) * 0);
+//    target[4] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
+//    target[5] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
 
 
 
@@ -153,6 +159,8 @@ void loop() {
   float deltaT = ((float) (currT - prevT)) / ( 1.0e6 );
   prevT = currT;
 
+  nh.spinOnce();
+  delay(5);
 
   // Read the position
   int pos[NMOTORS];
@@ -165,22 +173,29 @@ void loop() {
 
   //  Serial.println();
   msg.angle[0] = float(pos[0]) / (6600 / 360) + 0;
-  msg.angle[1] = float(pos[1]) / (6600 / 360) - 77;
+  msg.angle[1] = float(pos[1]) / (6600 / 360) - 72;
   msg.angle[2] = float(pos[2]) / (6600 / 360) + 53;
-  msg.angle[3] = float(pos[3]) / (6600 / 360) - 0;
-  msg.angle[4] = float(pos[4]) / (6600 / 360);
-  msg.angle[5] = float(pos[5]) / (6600 / 360);
+  msg.angle[3] = float(pos[3]) / (8910 / 360) - 0;
+  msg.angle[4] = float(pos[4]) / (6600 / 360) - 0;
+  msg.angle[5] = 0; //float(pos[5]) / (6600 / 360);
   pub.publish(&msg);
   delay(10);
 
   for (int k = 0; k < NMOTORS; k++) {
-    setMotor(prevPwmVal[k], pwmVal[k], pwm[k], in1[k], in2[k]);
+      setMotor(prevPwmVal[k], pwmVal[k], pwm[k], in1[k], in2[k]);
   }
 
+  for (int k = 0; k < NMOTORS; k++){
+    Serial.print("pos");
+    Serial.println(pos[4]);
+  }
 
   for (int k = 0; k < NMOTORS; k++) {
     int prevPwmVal = effort[k];
   }
+
+  nh.spinOnce();
+  delay(5);
 
 }
 

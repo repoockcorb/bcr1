@@ -105,14 +105,17 @@ void GenericHWInterface::init()
     effort_joint_interface_.registerHandle(joint_handle_effort);
 
     // Load the joint limits
-    registerJointLimits(joint_handle_position, joint_handle_velocity, joint_handle_effort, joint_id);
 
-    /////////////////////////////////////TESTING/////////////////////////////////
+    /////////////////////////////////////COMMENTED OUT NOTE REQUIRED FOR LIMITS/////////////////////////////////
+    // registerJointLimits(joint_handle_position, joint_handle_velocity, joint_handle_effort, joint_id);
+    /////////////////////////////////////COMMENTED OUT NOTE REQUIRED FOR LIMITS/////////////////////////////////
+
+    /////////////////////////////////////ENABLE SOFT LIMITS FOR EFFORT CONTROLLER/////////////////////////////////
     joint_limits_interface::JointLimits limits;
     joint_limits_interface::getJointLimits(joint_names_[joint_id], nh_, limits);
     joint_limits_interface::EffortJointSaturationHandle jointLimitsHandle(joint_handle_effort, limits);
     eff_jnt_sat_interface_.registerHandle(jointLimitsHandle);
-    /////////////////////////////////////TESTING/////////////////////////////////
+    /////////////////////////////////////ENABLE SOFT LIMITS FOR EFFORT CONTROLLER/////////////////////////////////
 
   }  // end for each joint
 
@@ -121,9 +124,9 @@ void GenericHWInterface::init()
   registerInterface(&velocity_joint_interface_);  // From RobotHW base class.
   registerInterface(&effort_joint_interface_);    // From RobotHW base class.
 
-  /////////////////////////////////////TESTING/////////////////////////////////
-  registerInterface(&eff_jnt_sat_interface_);
-  /////////////////////////////////////TESTING/////////////////////////////////
+  /////////////////////////////////////REGISTER SOFT LIMITS FOR EFFORT CONTROLLER/////////////////////////////////
+  registerInterface(&eff_jnt_sat_interface_);     // From RobotHW base class.
+  /////////////////////////////////////REGISTER SOFT LIMITS FOR EFFORT CONTROLLER/////////////////////////////////
 
 
   ROS_INFO_STREAM_NAMED(name_, "GenericHWInterface Ready.");
