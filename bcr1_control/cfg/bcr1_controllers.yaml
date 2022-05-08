@@ -56,14 +56,14 @@ position_trajectory_controller:
       i_clamp_min: 0
       antiwindup: false
     Joint_4:
-      p: 600
-      d: 20
+      p: 900
+      d: 5
       i: 0
       i_clamp_max: 0
       i_clamp_min: 0
       antiwindup: false
     Joint_5:
-      p: 600
+      p: 1200
       d: 20
       i: 0
       i_clamp_max: 0

@@ -7,10 +7,11 @@
     <param name="robot_description" textfile="$(find bcr1_description)/urdf/bcr1_description.urdf"/>
 
 
-    <!-- Show in Rviz  -->
-    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find thesis_arm)/basic.rviz"/> -->
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bcr1_description)/basic.rviz"/>
-
+    <!-- Show in Rviz (Default RViz Config)  -->
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bcr1_description)/basic.rviz"/> -->
+    <!-- RViz Saved Config -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bcr1_moveit_config)/bcr1_rviz_config.rviz"/>
+    
 
  <!-- CORE  -->
 
@@ -67,6 +68,5 @@
     <param name="port"              type="string"               value="/dev/ttyUSB0"/>
     <param name="baud"              type="int"                  value="115200"/>
     </node> -->
-
-
+  
 </launch>

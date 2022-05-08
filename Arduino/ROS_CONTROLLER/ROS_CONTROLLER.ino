@@ -91,9 +91,9 @@ void setup() {
   Serial.print("The hall status is:");
   Serial.println(hall_s[5]);
 
-  delay(1000);
+//  delay(1000);
   int k = 1;
-  while (k < 5) {
+  while (k < 6) {
     if (hall_s[k] == 0 || hall_s[k] == 1) {
       //      delay(1);
       hall_s[k] = !digitalRead(hall[k]);
@@ -136,7 +136,7 @@ void setup() {
 void loop() {
   
   nh.spinOnce();
-  delay(5);
+  delay(1);
   // read effort
   for (int k = 0; k < NMOTORS; k++) {
     pwmVal[k] = effort[k];
@@ -152,68 +152,44 @@ void loop() {
 //    target[4] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
 //    target[5] = ((6600 / 360) * 0) + ((6600 / 360) * 0);
 
-
-
   // time difference
   long currT = micros();
   float deltaT = ((float) (currT - prevT)) / ( 1.0e6 );
   prevT = currT;
-
-  nh.spinOnce();
-  delay(5);
+//
+//  nh.spinOnce();
+//  delay(2);
 
   // Read the position
   int pos[NMOTORS];
+  
   noInterrupts(); // disable interrupts temporarily while reading
   for (int k = 0; k < NMOTORS; k++) {
     pos[k] = posi[k];
   }
   interrupts(); // turn interrupts back on
 
-
-  //  Serial.println();
   msg.angle[0] = float(pos[0]) / (6600 / 360) + 0;
   msg.angle[1] = float(pos[1]) / (6600 / 360) - 72;
   msg.angle[2] = float(pos[2]) / (6600 / 360) + 53;
-  msg.angle[3] = float(pos[3]) / (8910 / 360) - 0;
-  msg.angle[4] = float(pos[4]) / (6600 / 360) - 0;
-  msg.angle[5] = 0; //float(pos[5]) / (6600 / 360);
+  msg.angle[3] = float(pos[3]) / (8910 / 360) + 0;
+  msg.angle[4] = float(pos[4]) / (6600 / 360) + 0;
+  msg.angle[5] = float(pos[5]) / (6600 / 360) + 0;
   pub.publish(&msg);
-  delay(10);
-
+  delay(2);
+  
   for (int k = 0; k < NMOTORS; k++) {
       setMotor(prevPwmVal[k], pwmVal[k], pwm[k], in1[k], in2[k]);
-  }
-
-  for (int k = 0; k < NMOTORS; k++){
-    Serial.print("pos");
-    Serial.println(pos[4]);
   }
 
   for (int k = 0; k < NMOTORS; k++) {
     int prevPwmVal = effort[k];
   }
 
-  nh.spinOnce();
-  delay(5);
+//  nh.spinOnce();spin
+//  delay(2);
 
 }
-
-//void setMotor(int dir, int pwmVal, int pwm, int in1, int in2) {
-//  analogWrite(pwm, pwmVal);
-//  if (dir == 1) {
-//    digitalWrite(in1, HIGH);
-//    digitalWrite(in2, LOW);
-//  }
-//  else if (dir == -1) {
-//    digitalWrite(in1, LOW);
-//    digitalWrite(in2, HIGH);
-//  }
-//  else {
-//    digitalWrite(in1, LOW);
-//    digitalWrite(in2, LOW);
-//  }
-//}
 
 void setMotor(int prevPwmVal, int pwmVal, int pwm, int in1, int in2) {
   analogWrite(pwm, fabs(pwmVal));
