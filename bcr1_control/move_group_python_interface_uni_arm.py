@@ -13,6 +13,7 @@ from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 
 from pyquaternion import Quaternion
+from scipy.spatial.transform import Rotation as R
 
 import tf
 import geometry_msgs
@@ -57,7 +58,7 @@ print(move_group.get_current_rpy())
 print("")
 
 def robot_pos(pose):
-    move_group.set_planner_id(planner_id = "RRT")
+    move_group.set_planner_id(planner_id = "PTP") # STRIDE, RRT, AnytimePathShortening
     move_group.set_planning_time(seconds = 4)
     # set scaling factor
     move_group.set_max_acceleration_scaling_factor(value = 0.4)
@@ -81,90 +82,51 @@ def robot_pos(pose):
     # Note: there is no equivalent function for clear_joint_value_targets()
     move_group.clear_pose_targets()
 
-robot_home = [0.318, 0, 0.428, 0.7071068, 0, 0.7071068, 0]
+joint_goal = [0, 0, 0, 0, 0, 0]
 
-# robot_home = [0.318, 0, 0.316, 0, 0, 0, 1]
 i = 1
-while i < 3:
-    robot_pos([0.2, 0.1, 0.2, 1, 0, 0, 0])
+while i < 8:
+    # # Position and Rotation for z-axis
+    # robot_pos([0.25, 0.15, 0.22, 1, 0, 0, 0])
     # time.sleep(2)
-    robot_pos([0.2, 0.25, 0.1, 1, 0, 0, 0])
+    # robot_pos([0.25, 0.15, 0.22-0.12, 1, 0, 0, 0])
     # time.sleep(2)
-    robot_pos(robot_home)
-    i = i+1
+    # robot_pos([0.25, 0.15, 0.22, 1, 0, 0, 0])
+    # time.sleep(2)
+    # move_group.go(joint_goal, wait=True)
+    # move_group.stop()
+    
+    # Position and Rotation for x-axis
+    robot_pos([0.25, 0.15, 0.22, 0.7071068, 0, 0.7071068, 0 ])
+    time.sleep(2)
+    robot_pos([0.25+0.12, 0.15, 0.22, 0.7071068, 0, 0.7071068, 0 ])
+    time.sleep(2)
+    robot_pos([0.25, 0.15, 0.22, 0.7071068, 0, 0.7071068, 0 ])
+    time.sleep(2)
+    move_group.go(joint_goal, wait=True)
+    move_group.stop()
+
+    # # Position and Rotation for y-axis
+    # robot_pos([0.25, 0.15, 0.22, 0.5, 0.5, 0.5, -0.5])
+    # time.sleep(2)
+    # robot_pos([0.25, 0.15+0.12, 0.22, 0.5, 0.5, 0.5, -0.5])
+    # time.sleep(2)
+    # robot_pos([0.25, 0.15, 0.22, 0.5, 0.5, 0.5, -0.5])
+    # time.sleep(2)
+    # move_group.go(joint_goal, wait=True)
+    # move_group.stop()
+    # time.sleep(2)
+
+    # robot_pos([0.25, 0.15, 0.22, -0.38018842, 0, 0, 0.92490906])
 
 
+    # r = R.from_matrix([
+    # [1, 0, 0],
+    # [0, -0.78, 0],
+    # [0, 0, 0.78]])
+    
+    # print(r.as_quat())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# pose_goal = geometry_msgs.msg.Pose()
-# pose_goal.position.x = 0.2
-# pose_goal.position.y = 0.0
-# pose_goal.position.z = 0.2
-
-
-# # quaternion = tf.transformations.quaternion_from_euler(1.5708,0,1.5708)
-# # #type(pose) = geometry_msgs.msg.Pose
-# # pose_goal.orientation.x = quaternion[0]
-# # pose_goal.orientation.y = quaternion[1]
-# # pose_goal.orientation.z = quaternion[2]
-# # pose_goal.orientation.w = quaternion[3]
-
-# # quaternion = [ 0.7071068, 0, 0.7071068, 0 ]
-
-# quaternion = [ 1, 0, 0, 0 ]
-
-# pose_goal.orientation.x = quaternion[0]
-# pose_goal.orientation.y = quaternion[1]
-# pose_goal.orientation.z = quaternion[2]
-# pose_goal.orientation.w = quaternion[3]
-
-# move_group.set_pose_target(pose_goal)
-
-
-# plan = move_group.go(wait=True)
-# # Calling `stop()` ensures that there is no residual movement
-# move_group.stop()
-# # It is always good to clear your targets after planning with poses.
-# # Note: there is no equivalent function for clear_joint_value_targets()
-# move_group.clear_pose_targets()
-
-
-# # time.sleep(5)
-
-# pose_goal = geometry_msgs.msg.Pose()
-# pose_goal.position.x = 0.2
-# pose_goal.position.y = 0.2
-# pose_goal.position.z = 0.32
-
-# quaternion = [ 0.7071068, 0, 0.7071068, 0 ]
-
-# # quaternion = [ 1, 0, 0, 0 ]
-
-# pose_goal.orientation.x = quaternion[0]
-# pose_goal.orientation.y = quaternion[1]
-# pose_goal.orientation.z = quaternion[2]
-# pose_goal.orientation.w = quaternion[3]
-
-# move_group.set_pose_target(pose_goal)
-
-
-# plan = move_group.go(wait=True)
-# # Calling `stop()` ensures that there is no residual movement
-# move_group.stop()
-# # It is always good to clear your targets after planning with poses.
-# # Note: there is no equivalent function for clear_joint_value_targets()
-# move_group.clear_pose_targets()
-
+    i=i+1
+ 
+print("PROCESS SUCCEDED")
